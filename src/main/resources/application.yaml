@@ -1,0 +1,4 @@
+user:
+  url: http://localhost:8082
+advertiser:
+  url: http://localhost:8083
