@@ -23,8 +23,12 @@ public class AdvertiserController {
     }
 
     @PostMapping("/save")
-    public AdvertiserPayload save(@RequestBody AdvertiserPayload advertiser) {
-        return advertiserService.saveAdvertiser(advertiser);
+    public ResponseEntity<AdvertiserPayload> save(@RequestBody AdvertiserPayload advertiser) {
+        try {
+            return new ResponseEntity(advertiserService.saveAdvertiser(advertiser), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity("Impossible d'effectuer l'inscription !", HttpStatus.UNAUTHORIZED);
+        }
     }
 
     @PostMapping("/authenticate")
@@ -32,47 +36,83 @@ public class AdvertiserController {
         try {
             return new ResponseEntity(advertiserService.authenticate(credentials), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity("message", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity("Mail/password invalide !", HttpStatus.UNAUTHORIZED);
         }
     }
 
+    // CAn t save campagne
     @PostMapping("/campaigns/save")
-    public CampaignPayload save(@RequestBody CampaignPayload campaign) {
-        return advertiserService.saveCampaign(campaign);
+    public ResponseEntity<CampaignPayload> save(@RequestBody CampaignPayload campaign) {
+        try {
+            return new ResponseEntity(advertiserService.saveCampaign(campaign), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity("Impossible d'enregistrer la campagne !", HttpStatus.UNAUTHORIZED);
+        }
     }
 
+    // can t save adset
     @PostMapping("/campaigns/ad-sets/save")
-    public AdSetPayload save(@RequestBody AdSetPayload adSet) {
-        return advertiserService.saveAdSet(adSet);
+    public ResponseEntity<AdSetPayload> save(@RequestBody AdSetPayload adSet) {
+        try {
+            return new ResponseEntity(advertiserService.saveAdSet(adSet), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity("Impossible d'enregistrer la Adset !", HttpStatus.UNAUTHORIZED);
+        }
     }
 
+    // can t save ad
     @PostMapping("/campaigns/ad-sets/ads/save")
-    public AdPayload save(@RequestBody AdPayload ad) {
-        return advertiserService.saveAd(ad);
+    public ResponseEntity<AdPayload> save(@RequestBody AdPayload ad) {
+        try {
+            return new ResponseEntity(advertiserService.saveAd(ad), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity("Impossible d'enregistrer la Ad !", HttpStatus.UNAUTHORIZED);
+        }
     }
 
+    // internal server error
     @GetMapping("/campaigns/ads/{adId}/visitors/count")
-    public Integer getAdVisitorsCount(@PathVariable Long adId) {
-        return advertiserService.getAdVisitorsCount(adId);
+    public ResponseEntity<Integer> getAdVisitorsCount(@PathVariable Long adId) {
+        try {
+            return new ResponseEntity(advertiserService.getAdVisitorsCount(adId), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity("", HttpStatus.UNAUTHORIZED);
+        }
     }
 
+    // TODO: correct methode to return status
     @GetMapping("/campaigns/ads/{adId}/visitors/count/update")
     public void updateAdVisitorsCount(@PathVariable Long adId) {
         advertiserService.updateAdVisitorsCount(adId);
     }
 
+    // aucune compagne | internat server error
     @GetMapping("/{advertiserId}/campaigns")
-    public List<CampaignPayload> getAdvertiserCampaigns(@PathVariable Long advertiserId) {
-        return advertiserService.getAdvertiserCampaigns(advertiserId);
+    public ResponseEntity<List<CampaignPayload>> getAdvertiserCampaigns(@PathVariable Long advertiserId) {
+        try {
+            return new ResponseEntity(advertiserService.getAdvertiserCampaigns(advertiserId), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity("Aucune campagne trouvée !", HttpStatus.UNAUTHORIZED);
+        }
     }
 
+    // internal server error
     @GetMapping("/campaigns/{campaignId}/ad-sets")
-    public List<AdSetPayload> getCampaignAdSets(@PathVariable Long campaignId) {
-        return advertiserService.getCampaignAdSets(campaignId);
+    public ResponseEntity<List<AdSetPayload>> getCampaignAdSets(@PathVariable Long campaignId) {
+        try {
+            return new ResponseEntity(advertiserService.getCampaignAdSets(campaignId), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity("Erreur interne serveur !", HttpStatus.UNAUTHORIZED);
+        }
     }
 
+    // internal server error
     @GetMapping("/ad-sets/{adSetId}/ads")
-    public List<AdPayload> getAdSetAds(@PathVariable Long adSetId) {
-        return advertiserService.getAdSetAds(adSetId);
+    public ResponseEntity<List<AdPayload>> getAdSetAds(@PathVariable Long adSetId) {
+        try {
+            return new ResponseEntity(advertiserService.getAdSetAds(adSetId), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity("Erreur interne serveur !", HttpStatus.UNAUTHORIZED);
+        }
     }
 }

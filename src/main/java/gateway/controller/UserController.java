@@ -19,20 +19,32 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
+
+    // creation de compte, impossible de créer le compte, cas ou le serveur user is down
     @PostMapping("/save")
-    public UserPayload save(@RequestBody UserPayload user){
-        return userService.saveUser(user);
+    public ResponseEntity<UserPayload> save(@RequestBody UserPayload user){
+        try {
+            return new ResponseEntity( userService.saveUser(user), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity("Impossible de créer le compte !", HttpStatus.UNAUTHORIZED);
+        }
     }
+
     @PostMapping("/authenticate")
     public ResponseEntity<UserPayload> authenticate(@RequestBody Credentials credentials){
         try {
             return new ResponseEntity( userService.authenticate(credentials),HttpStatus.OK);
         }catch (Exception e){
-            return new ResponseEntity("message",HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity("Mail/password invalide !",HttpStatus.UNAUTHORIZED);
         }
     }
+    // get playlist user, if nothing found
     @GetMapping("/{userId}/playlists")
-    public List<PlaylistPayload> getUserPlaylists(@PathVariable Long userId){
-        return userService.getUserPlaylists(userId);
+    public ResponseEntity<List<PlaylistPayload>> getUserPlaylists(@PathVariable Long userId){
+        try {
+            return new ResponseEntity(userService.getUserPlaylists(userId), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity("Aucune playlist trouvé !", HttpStatus.UNAUTHORIZED);
+        }
     }
 }
