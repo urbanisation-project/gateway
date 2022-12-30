@@ -1,6 +1,7 @@
 package gateway.controller;
 
 import gateway.proxy.user.payload.PlaylistPayload;
+import gateway.proxy.user.payload.VideoDTO;
 import gateway.proxy.user.payload.VideoPayload;
 import gateway.service.VideoService;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/api")
 public class PlaylistController {
-    private VideoService videoService;
+    private final VideoService videoService;
 
     public PlaylistController(VideoService videoService) {
         this.videoService = videoService;
@@ -24,20 +25,20 @@ public class PlaylistController {
     public PlaylistPayload update(@RequestBody PlaylistPayload playlist){
         return videoService.update(playlist);
     }
-    public PlaylistPayload delete(@RequestBody PlaylistPayload playlist){
+    @DeleteMapping("/playlists/delete")
+    public boolean delete(@RequestBody PlaylistPayload playlist){
         return videoService.delete(playlist);
     }
-    @DeleteMapping("/playlists/delete")
-    @PostMapping("/videos/save")
-    public PlaylistPayload save(@RequestBody VideoPayload video){
-        return videoService.addVideoToPlaylist(video);
-    }
     @DeleteMapping("/videos/remove")
-    public PlaylistPayload remove(@RequestBody VideoPayload video){
+    public boolean remove(@RequestBody VideoPayload video){
         return videoService.removeVideoFromPlaylist(video);
     }
     @GetMapping("/playlists/{playlistId}/videos")
     public List<VideoPayload> getPlaylistVideos(@PathVariable Long playlistId){
         return videoService.getPlaylistVideos(playlistId);
+    }
+    @PostMapping("playlists/{playlistId}/add-video")
+    public PlaylistPayload addVideoToPlaylist(@PathVariable Long playlistId,@RequestBody VideoDTO video){
+        return videoService.addVideoToPlaylist(playlistId, video);
     }
 }

@@ -161,7 +161,7 @@ public class AdvertiserProxyImpl implements AdvertiserProxy {
     public List<KeywordPayload> getKeywordsByNames(List<String> keywords) {
         URI uri = UriComponentsBuilder
                 .fromHttpUrl(url)
-                .path("/v1/api/keywords/keywords")
+                .path("/v1/api/keywords/by-names")
                 .build()
                 .toUri();
         return Arrays.stream(Objects.requireNonNull(

@@ -1,11 +1,12 @@
 package gateway.service;
 
+import gateway.proxy.user.payload.VideoDTO;
 import gateway.proxy.user.payload.VideoPayload;
 
 import java.util.List;
 
 public interface SearchService {
-    List<VideoPayload> researchVideoYoutube(String query);
+    List<VideoDTO> researchVideoYoutube(String query);
 
-    List<VideoPayload> researchVideoDailyMotion(String query);
+    List<VideoDTO> researchVideoDailyMotion(String query);
 }

@@ -2,6 +2,7 @@ package gateway.service.impl;
 
 import gateway.proxy.user.UserProxy;
 import gateway.proxy.user.payload.PlaylistPayload;
+import gateway.proxy.user.payload.VideoDTO;
 import gateway.proxy.user.payload.VideoPayload;
 import gateway.service.VideoService;
 import org.springframework.stereotype.Service;
@@ -22,17 +23,17 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public PlaylistPayload addVideoToPlaylist(VideoPayload video) {
-        return userProxy.addVideoToPlaylist(video);
+    public PlaylistPayload addVideoToPlaylist(Long playlistId, VideoDTO video) {
+        return userProxy.addVideoToPlaylist(playlistId,video);
     }
 
     @Override
-    public PlaylistPayload removeVideoFromPlaylist(VideoPayload video) {
+    public boolean removeVideoFromPlaylist(VideoPayload video) {
         return userProxy.removeVideoFromPlaylist(video);
     }
 
     @Override
-    public PlaylistPayload delete(PlaylistPayload playlist) {
+    public boolean delete(PlaylistPayload playlist) {
         return userProxy.delete(playlist);
     }
 

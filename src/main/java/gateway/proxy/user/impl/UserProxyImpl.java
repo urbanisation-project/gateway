@@ -4,6 +4,7 @@ import gateway.proxy.common.Credentials;
 import gateway.proxy.user.UserProxy;
 import gateway.proxy.user.payload.PlaylistPayload;
 import gateway.proxy.user.payload.UserPayload;
+import gateway.proxy.user.payload.VideoDTO;
 import gateway.proxy.user.payload.VideoPayload;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -41,10 +42,10 @@ public class UserProxyImpl implements UserProxy {
     }
 
     @Override
-    public PlaylistPayload addVideoToPlaylist(VideoPayload video) {
+    public PlaylistPayload addVideoToPlaylist(Long playlistId, VideoDTO video) {
         URI uri = UriComponentsBuilder
                 .fromHttpUrl(url)
-                .path("/v1/api/playlists/videos/save")
+                .path("/v1/api/playlists/"+playlistId+"/add-video")
                 .build()
                 .toUri();
         return restTemplate.postForEntity(
@@ -55,30 +56,30 @@ public class UserProxyImpl implements UserProxy {
     }
 
     @Override
-    public PlaylistPayload removeVideoFromPlaylist(VideoPayload video) {
+    public boolean removeVideoFromPlaylist(VideoPayload video) {
         URI uri = UriComponentsBuilder
                 .fromHttpUrl(url)
-                .path("/v1/api/playlists/videos"+video.getId()+"/remove")
+                .path("/v1/api/playlists/videos/remove")
                 .build()
                 .toUri();
-        return restTemplate.postForEntity( // a revoir
+        return restTemplate.postForEntity(
                 uri,
                 video,
-                PlaylistPayload.class
+                boolean.class
         ).getBody();
     }
 
     @Override
-    public PlaylistPayload delete(PlaylistPayload playlist) {
+    public boolean delete(PlaylistPayload playlist) {
         URI uri = UriComponentsBuilder
                 .fromHttpUrl(url)
-                .path("/v1/api/playlists/delete") // a revoir
+                .path("/v1/api/playlists/delete")
                 .build()
                 .toUri();
         return restTemplate.postForEntity(
                 uri,
                 playlist,
-                PlaylistPayload.class
+                boolean.class
         ).getBody();
     }
 
@@ -97,28 +98,28 @@ public class UserProxyImpl implements UserProxy {
     }
 
     @Override
-    public List<VideoPayload> researchVideoYoutube(String query) {
+    public List<VideoDTO> researchVideoYoutube(String query) {
         URI uri = UriComponentsBuilder
                 .fromHttpUrl(url)
-                .path("/v1/api/researches/youtube" + query) //a revoir
+                .path("/v1/api/researches/youtube/" + query)
                 .build()
                 .toUri();
         return Arrays.stream(Objects.requireNonNull(restTemplate.getForEntity(
                 uri,
-                VideoPayload[].class
+                VideoDTO[].class
         ).getBody())).collect(Collectors.toList());
     }
 
     @Override
-    public List<VideoPayload> researchVideoDailyMotion(String query) {
+    public List<VideoDTO> researchVideoDailyMotion(String query) {
         URI uri = UriComponentsBuilder
                 .fromHttpUrl(url)
-                .path("/v1/api/researches/dailymotion" + query) // idem pour youtube
+                .path("/v1/api/researches/dailymotion/" + query)
                 .build()
                 .toUri();
         return Arrays.stream(Objects.requireNonNull(restTemplate.getForEntity(
                 uri,
-                VideoPayload[].class
+                VideoDTO[].class
         ).getBody())).collect(Collectors.toList());
     }
 
@@ -154,7 +155,7 @@ public class UserProxyImpl implements UserProxy {
     public List<PlaylistPayload> getUserPlaylists(Long userId) {
         URI uri = UriComponentsBuilder
                 .fromHttpUrl(url)
-                .path("chnger/" + userId) // a implementer
+                .path("/v1/api/users/" + userId+"/playlists")
                 .build()
                 .toUri();
         return Arrays.stream(Objects.requireNonNull(restTemplate.getForEntity(
@@ -167,7 +168,7 @@ public class UserProxyImpl implements UserProxy {
     public List<VideoPayload> getPlaylistVideos(Long playlistId) {
         URI uri = UriComponentsBuilder
                 .fromHttpUrl(url)
-                .path("chnger/" + playlistId) // a implementer
+                .path("/v1/api/playlists/" + playlistId+"/videos")
                 .build()
                 .toUri();
         return Arrays.stream(Objects.requireNonNull(restTemplate.getForEntity(

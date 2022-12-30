@@ -1,6 +1,7 @@
 package gateway.service.impl;
 
 import gateway.proxy.user.UserProxy;
+import gateway.proxy.user.payload.VideoDTO;
 import gateway.proxy.user.payload.VideoPayload;
 import gateway.service.SearchService;
 import org.springframework.stereotype.Service;
@@ -15,12 +16,12 @@ public class SearchServiceImpl implements SearchService {
     }
 
     @Override
-    public List<VideoPayload> researchVideoYoutube(String query) {
+    public List<VideoDTO> researchVideoYoutube(String query) {
         return searchProxy.researchVideoYoutube(query);
     }
 
     @Override
-    public List<VideoPayload> researchVideoDailyMotion(String query) {
+    public List<VideoDTO> researchVideoDailyMotion(String query) {
         return searchProxy.researchVideoDailyMotion(query);
     }
 }
