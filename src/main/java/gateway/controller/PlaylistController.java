@@ -25,11 +25,11 @@ public class PlaylistController {
     public PlaylistPayload update(@RequestBody PlaylistPayload playlist){
         return videoService.update(playlist);
     }
-    @DeleteMapping("/playlists/delete")
+    @PostMapping("/playlists/delete")
     public boolean delete(@RequestBody PlaylistPayload playlist){
         return videoService.delete(playlist);
     }
-    @DeleteMapping("/videos/remove")
+    @PostMapping("/videos/remove")
     public boolean remove(@RequestBody VideoPayload video){
         return videoService.removeVideoFromPlaylist(video);
     }
