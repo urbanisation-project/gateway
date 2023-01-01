@@ -19,9 +19,9 @@ public interface UserProxy {
 
     PlaylistPayload update(PlaylistPayload playlist);
 
-    List<VideoDTO> researchVideoYoutube(String query);
+    List<VideoDTO> researchVideoYoutube(String query) throws Exception;
 
-    List<VideoDTO> researchVideoDailyMotion(String query);
+    List<VideoDTO> researchVideoDailyMotion(String query) throws Exception;
 
     UserPayload authenticate(Credentials credentials);
 

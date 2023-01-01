@@ -1,5 +1,6 @@
 package gateway.controller;
 
+import gateway.controller.payload.PlaylistDTO;
 import gateway.proxy.common.Credentials;
 import gateway.proxy.user.payload.PlaylistPayload;
 import gateway.proxy.user.payload.UserPayload;
@@ -34,5 +35,9 @@ public class UserController {
     @GetMapping("/{userId}/playlists")
     public List<PlaylistPayload> getUserPlaylists(@PathVariable Long userId){
         return userService.getUserPlaylists(userId);
+    }
+    @GetMapping("/{userId}/playlistsDto")
+    public List<PlaylistDTO> getUserPlaylistsDTO(@PathVariable Long userId){
+        return userService.getUserPlaylistsDTO(userId);
     }
 }

@@ -98,7 +98,7 @@ public class UserProxyImpl implements UserProxy {
     }
 
     @Override
-    public List<VideoDTO> researchVideoYoutube(String query) {
+    public List<VideoDTO> researchVideoYoutube(String query) throws Exception{
         URI uri = UriComponentsBuilder
                 .fromHttpUrl(url)
                 .path("/v1/api/researches/youtube/" + query)
@@ -111,7 +111,7 @@ public class UserProxyImpl implements UserProxy {
     }
 
     @Override
-    public List<VideoDTO> researchVideoDailyMotion(String query) {
+    public List<VideoDTO> researchVideoDailyMotion(String query) throws Exception {
         URI uri = UriComponentsBuilder
                 .fromHttpUrl(url)
                 .path("/v1/api/researches/dailymotion/" + query)
