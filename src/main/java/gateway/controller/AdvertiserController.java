@@ -1,16 +1,14 @@
 package gateway.controller;
 
-import gateway.proxy.advertiser.payload.AdPayload;
-import gateway.proxy.advertiser.payload.AdSetPayload;
-import gateway.proxy.advertiser.payload.AdvertiserPayload;
-import gateway.proxy.advertiser.payload.CampaignPayload;
+import gateway.proxy.advertiser.payload.*;
 import gateway.proxy.common.Credentials;
 import gateway.service.AdvertiserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -74,5 +72,14 @@ public class AdvertiserController {
     @GetMapping("/ad-sets/{adSetId}/ads")
     public List<AdPayload> getAdSetAds(@PathVariable Long adSetId) {
         return advertiserService.getAdSetAds(adSetId);
+    }
+
+    @PutMapping("/ads/{adId}")
+    public void addImageToAd(@PathVariable Long adId , @RequestBody MultipartFile file){
+        advertiserService.addImageToAd(adId,file);
+    }
+    @GetMapping("/{adId}/images")
+    public byte[] getImage(@PathVariable Long adId) throws Exception {
+        return advertiserService.getImage(adId);
     }
 }

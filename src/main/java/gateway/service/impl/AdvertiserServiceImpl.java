@@ -5,6 +5,7 @@ import gateway.proxy.advertiser.payload.*;
 import gateway.proxy.common.Credentials;
 import gateway.service.AdvertiserService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -73,5 +74,14 @@ public class AdvertiserServiceImpl implements AdvertiserService {
     @Override
     public void updateAdVisitorsCount(Long adId) {
         advertiserProxy.updateAdVisitorsCount(adId);
+    }
+    @Override
+    public void addImageToAd(Long adId, MultipartFile file) {
+        advertiserProxy.addImageToAd(adId,file);
+    }
+
+    @Override
+    public byte[] getImage(Long adId) {
+        return advertiserProxy.getImage(adId);
     }
 }

@@ -6,6 +6,7 @@ import gateway.proxy.common.Credentials;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
@@ -58,6 +59,25 @@ public class AdvertiserProxyImpl implements AdvertiserProxy {
                 .build()
                 .toUri();
         restTemplate.getForEntity(uri,void.class).getBody();
+    }
+    @Override
+    public void addImageToAd(Long adId, MultipartFile file) {
+        URI uri = UriComponentsBuilder
+                .fromHttpUrl(url)
+                .path("/v1/api/ads/"+adId)
+                .build()
+                .toUri();
+        restTemplate.postForEntity(uri,file,void.class).getBody();
+    }
+
+    @Override
+    public byte[] getImage(Long adId) {
+        URI uri = UriComponentsBuilder
+                .fromHttpUrl(url)
+                .path("/v1/api/ads/"+adId+"/images")
+                .build()
+                .toUri();
+        return restTemplate.getForEntity(uri,byte[].class).getBody();
     }
 
     @Override

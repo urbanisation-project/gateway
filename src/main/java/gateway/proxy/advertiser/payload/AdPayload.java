@@ -1,10 +1,10 @@
 package gateway.proxy.advertiser.payload;
 
-import lombok.*;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.Date;
 import java.util.Objects;
 
 @Getter
@@ -14,10 +14,7 @@ import java.util.Objects;
 public class AdPayload {
     private Long id;
     private String name;
-    //private Resource resource;
     private String resource;
-    private Date startDate;
-    private Date endDate;
     private String description;
     private int visitorsCount;
     private AdSetPayload adSet;

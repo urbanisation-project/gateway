@@ -2,6 +2,7 @@ package gateway.service;
 
 import gateway.proxy.advertiser.payload.*;
 import gateway.proxy.common.Credentials;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -27,4 +28,8 @@ public interface AdvertiserService {
     List<AdPayload> getAdsByKeywords(List<String> keywords);
 
     void updateAdVisitorsCount(Long adId);
+
+    void addImageToAd(Long adId, MultipartFile file);
+
+    byte[] getImage(Long adId);
 }
