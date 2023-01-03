@@ -1,4 +1,4 @@
-package gateway.config;
+    package gateway.config;
 
 import org.springframework.stereotype.Component;
 

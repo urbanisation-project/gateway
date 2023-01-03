@@ -14,7 +14,7 @@ import java.util.Objects;
 public class AdPayload {
     private Long id;
     private String name;
-    private String resource;
+    private Image resource;
     private String description;
     private int visitorsCount;
     private AdSetPayload adSet;

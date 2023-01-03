@@ -74,8 +74,8 @@ public class AdvertiserController {
         return advertiserService.getAdSetAds(adSetId);
     }
 
-    @PutMapping("/ads/{adId}")
-    public void addImageToAd(@PathVariable Long adId , @RequestBody MultipartFile file){
+    @PostMapping(value="/ads/{adId}",  consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void addImageToAd(@PathVariable Long adId , @RequestPart MultipartFile file){
         advertiserService.addImageToAd(adId,file);
     }
     @GetMapping("/{adId}/images")

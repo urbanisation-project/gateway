@@ -1,10 +1,17 @@
 package gateway.proxy.advertiser.impl;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import gateway.proxy.advertiser.AdvertiserProxy;
 import gateway.proxy.advertiser.payload.*;
 import gateway.proxy.common.Credentials;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -16,6 +23,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY, getterVisibility = JsonAutoDetect.Visibility.NONE, setterVisibility = JsonAutoDetect.Visibility.NONE)
 public class AdvertiserProxyImpl implements AdvertiserProxy {
     private RestTemplate restTemplate;
     @Value("${advertiser.url}")
@@ -64,10 +72,15 @@ public class AdvertiserProxyImpl implements AdvertiserProxy {
     public void addImageToAd(Long adId, MultipartFile file) {
         URI uri = UriComponentsBuilder
                 .fromHttpUrl(url)
-                .path("/v1/api/ads/"+adId)
+                .path("/v1/api/ads/"+adId+"/save/image")
                 .build()
                 .toUri();
-        restTemplate.postForEntity(uri,file,void.class).getBody();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        MultiValueMap<String, Object> body= new LinkedMultiValueMap<>();
+        body.add("file", file.getResource());
+        HttpEntity<MultiValueMap<String, Object>> requestEntity= new HttpEntity<>(body, headers);
+        restTemplate.postForEntity(uri, requestEntity, void.class);
     }
 
     @Override
