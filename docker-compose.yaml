@@ -18,8 +18,8 @@ services:
     ports:
       - "8090:8090"
     environment:
-      USER_SERVICE_URL: http://localhost:8001
-      ADVERTISER_SERVICE_URL: http://localhost:8002
+      USER_SERVICE_URL: http://localhost:8085
+      ADVERTISER_SERVICE_URL: http://localhost:8083
   front:
     depends_on:
       - gateway
